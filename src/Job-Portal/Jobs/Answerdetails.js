@@ -154,13 +154,17 @@ async function deletComment(id){
   return (
     <>
 
-        <h2 style={{marginLeft:"10px", fontWeight:"800", marginTop:"15px", marginBottom:"-15px"}}> Blogs  </h2>
+        <h2 class={styles.blogHeading} style={{fontWeight:"800", marginTop:"15px", marginBottom:"25px", fontSize:"30px"}}> Blogs  </h2>
 
-    <div style={{display:"flex", marginTop:"20px"}}>
+    <div class={styles.btnContainer} style={{display:"flex", marginTop:"20px"}}>
                             {/* <img style={{ height:"25px", color:"grey", marginTop:"20px", marginLeft:"8%", cursor:"pointer",
              width:"28px"}} onClick={()=>{navigate(-1)}}  src={Arrowimage} /> */}
-             <button style={{  color:"grey", marginTop:"10px", marginLeft:"8%", cursor:"pointer",}} 
-             onClick={()=>{navigate(-1)}}>Back</button>
+             <div class={styles.backApplyContainer}>
+             <button style={{   marginTop:"10px", marginLeft:"0%", cursor:"pointer",}} 
+             onClick={()=>{navigate(-1)}} class={styles.back}>&#8592; Back</button>
+             <button style={{   marginTop:"10px", marginLeft:"0%", cursor:"pointer",}} 
+              className={`${styles.back} ${styles.apply}`}>Apply</button>
+             </div>
               
     </div>
 
@@ -214,9 +218,9 @@ async function deletComment(id){
   </div>
   </div>         */}
   {/* <h1 style={{textAlign:"center", fontSize:"xx-large"}}>{jobs.jobTitle[0].toUpperCase()+jobs.jobTitle.slice(1)}</h1> */}
-  <h1 style={{textAlign:"center", fontSize:"xx-large"}}>{jobs.jobTitle}</h1>
-<div style={{textAlign:"center"}}>
-  <span>By {jobs.name}</span>
+  <h1 style={{textAlign:"start", fontSize:"xx-large "}} class={styles.title}>{jobs.jobTitle}</h1>
+<div class={styles.byContainer} >
+  <span  >By {jobs.name}</span>
   <span> . {new Date(jobs.createdAt).toLocaleString(
                   "en-US",
                   {
@@ -224,7 +228,8 @@ async function deletComment(id){
                     day: "2-digit",
                     year: "numeric",
                   }
-                )}</span> . 
+                )}</span> .
+  </div>              
   {/* <span> 
   {new Date(jobs.updatedAt).toLocaleString(
                   "en-US",
@@ -235,17 +240,17 @@ async function deletComment(id){
                   }
                 )}
   </span> */}
-</div>
+
 
 { jobs.comments?
       jobs.comments.map((com)=>{
         return(
           <>
           {/* <p> {com.name} : {com.comment}</p> */}
-          <p style={{textAlign:"center",}}> 
+          <p class={styles.submittedAnsDiv} style={{textAlign:"center",}}> 
              {/* {com.comment} */}
-             {HTMLReactParser(com.comment.toString())}  
-             ({com.name}) 
+             <div class={styles.submittedAnsDetail}>{HTMLReactParser(com.comment.toString())}</div>  
+             <div class={styles.submittedAnsBy}>({com.name})</div> 
              {userid===com.id?<button onClick={()=>{deletComment(com.id)}} >delete</button>
           :""
           } </p>
@@ -278,6 +283,7 @@ async function deletComment(id){
      }  */}
        {/* <input placeholder='Answer' maxLength={300} style={{height:"30px", marginLeft:"6px", width:"95%"}} type='text' value={comments.comment} onChange={(e)=>{changeComments(e)}} /><br></br>
        <button onClick={handleComment} style={{height:"30px", marginLeft:"6px"}}>Comment</button> */}
+ <div class={styles.commentSection}>
  {  
      jobs.comments?
      jobs.comments.filter((com)=>{
@@ -290,11 +296,12 @@ async function deletComment(id){
       value={comments.comment} onChange={(e)=>{changeComments(e)}} /> */}
 <JoditEditor  ref={editor}   onChange={(e)=>{changeComments(e)}} />
 
-       <button onClick={handleComment} style={{height:"30px", marginLeft:"6px"}}>Answer</button> 
+       <button onClick={handleComment} style={{height:"30px", marginLeft:"6px"}} class={styles.answer}>Answer</button> 
        </>
        :""
       :""
 } 
+</div>
 
           </>
           :
@@ -322,7 +329,10 @@ async function deletComment(id){
   <table style={{marginLeft:"6px", marginTop:"0px", width:"98.8%"}}>
           <tr >
     <td colSpan={2} > 
-          <p> {com.name} : {com.comment}</p>
+          <p> {com.name} :
+             {/* {com.comment} */}
+             {HTMLReactParser(com.comment.toString())}
+             </p>
 {userid===com.id?
           <button onClick={()=>{deletComment(com.id)}} >delete</button>
           :""
@@ -345,7 +355,9 @@ async function deletComment(id){
        userid===com.id
         )
       }).length<1?<>
-              <input placeholder='Answer' maxLength={300} style={{height:"30px", marginLeft:"6px", width:"95%"}} type='text' value={comments.comment} onChange={(e)=>{changeComments(e)}} /><br></br>
+              {/* <input placeholder='Answer' maxLength={300} style={{height:"30px", marginLeft:"6px", width:"95%"}} type='text' value={comments.comment} onChange={(e)=>{changeComments(e)}} /><br></br> */}
+    <JoditEditor  ref={editor}   onChange={(e)=>{changeComments(e)}} />
+
        <button onClick={handleComment} style={{height:"30px", marginLeft:"6px"}}>Comment</button> 
        </>
        :""
